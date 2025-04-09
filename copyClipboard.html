@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Copy Password Widget</title>
+    <!-- Ensure the widget is responsive on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        color: #333;
+        margin: 0;
+        padding: 10px;
+      }
+      .container {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #fff;
+        padding: 15px;
+        max-width: 400px;
+        margin: auto;
+      }
+      p {
+        margin-bottom: 10px;
+        word-break: break-all; /* Ensures long strings wrap */
+      }
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p><strong>Password:</strong></p>
+      <p id="passwordText">No password provided!</p>
+      <button onclick="copyPassword()">Copy to Clipboard</button>
+    </div>
+
+    <script>
+      // Function to get the query parameter by name
+      function getQueryParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      // Retrieve the "data" query parameter (should contain the password)
+      const passwordValue = getQueryParameter("data");
+      if (passwordValue) {
+        document.getElementById("passwordText").textContent = passwordValue;
+      }
+
+      // Function to copy the password text to the clipboard
+      function copyPassword() {
+        const text = document.getElementById("passwordText").textContent;
+        if (!text || text === "No password provided!") {
+          alert("Nothing to copy.");
+          return;
+        }
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            alert("Password copied to clipboard!");
+          })
+          .catch((err) => {
+            alert("Failed to copy password: " + err);
+          });
+      }
+    </script>
+  </body>
+</html>
